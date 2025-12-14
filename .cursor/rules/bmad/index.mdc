@@ -41,20 +41,6 @@ BMAD rules have been installed to: `.cursor/rules/bmad/`
 - @bmad/core/workflows/brainstorming-session - brainstorming-session
 - @bmad/core/workflows/party-mode - party-mode
 
-### BMB
-
-**Agents:**
-- @bmad/bmb/agents/bmad-builder - bmad-builder
-
-**Workflows:**
-- @bmad/bmb/workflows/Meal Prep & Nutrition Plan - Meal Prep & Nutrition Plan
-- @bmad/bmb/workflows/create-agent - create-agent
-- @bmad/bmb/workflows/create-module - create-module
-- @bmad/bmb/workflows/create-workflow - create-workflow
-- @bmad/bmb/workflows/edit-agent - edit-agent
-- @bmad/bmb/workflows/edit-workflow - edit-workflow
-- @bmad/bmb/workflows/workflow-compliance-check - workflow-compliance-check
-
 ### BMM
 
 **Agents:**

@@ -64,6 +64,7 @@ constant_time_eq = "0.3"
 futures = "0.3"
 bytes = "1.9"
 uuid = { version = "1.16", features = ["v4"] }
+form_urlencoded = "1.2"
 
 # Testing utilities
 tempfile = "3.14"

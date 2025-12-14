@@ -20,6 +20,7 @@ pub struct AppState {
 
 /// Response for successful processing.
 #[derive(Debug, Serialize)]
+#[allow(dead_code)] // TODO: Use this struct in responses that deal with processing results async.
 pub struct ProcessResponse {
     pub success: bool,
     pub input_size: usize,
@@ -38,10 +39,14 @@ pub struct ErrorResponse {
     pub details: Option<String>,
 }
 
+/// Reserved query parameter names that are not treated as placeholders.
+const RESERVED_PARAMS: &[&str] = &["placeholders"];
+
 /// Query parameters for processing endpoints.
+/// All query parameters (except reserved ones) are treated as placeholders.
 #[derive(Debug, Deserialize)]
 pub struct ProcessQuery {
-    /// Placeholders as JSON object string
+    /// Placeholders as JSON object string (legacy support)
     #[serde(default)]
     pub placeholders: Option<String>,
 }
@@ -107,8 +112,8 @@ pub async fn process_jar_handler(
     let auth_ctx = get_auth_context(&req);
     let start = Instant::now();
 
-    // Parse placeholders from query
-    let placeholders = match parse_placeholders(&query.placeholders) {
+    // Parse placeholders from query parameters
+    let placeholders = match parse_placeholders_from_request(&req, &query.placeholders) {
         Ok(p) => p,
         Err(e) => {
             return HttpResponse::BadRequest().json(ErrorResponse {
@@ -198,8 +203,8 @@ pub async fn process_archive_handler(
     let auth_ctx = get_auth_context(&req);
     let start = Instant::now();
 
-    // Parse placeholders from query
-    let placeholders = match parse_placeholders(&query.placeholders) {
+    // Parse placeholders from query parameters
+    let placeholders = match parse_placeholders_from_request(&req, &query.placeholders) {
         Ok(p) => p,
         Err(e) => {
             return HttpResponse::BadRequest().json(ErrorResponse {
@@ -279,14 +284,41 @@ pub async fn process_archive_handler(
     }
 }
 
-/// Parse placeholders from JSON string.
-fn parse_placeholders(json_str: &Option<String>) -> Result<HashMap<String, String>, String> {
+/// Parse placeholders from JSON string (legacy support).
+fn parse_placeholders_json(json_str: &Option<String>) -> Result<HashMap<String, String>, String> {
     match json_str {
         Some(s) if !s.is_empty() => {
             serde_json::from_str(s).map_err(|e| format!("Invalid JSON: {e}"))
         },
         _ => Ok(HashMap::new()),
     }
+}
+
+/// Parse placeholders from request query parameters.
+/// All query parameters (except reserved ones like 'placeholders') are treated as placeholders.
+/// If the legacy 'placeholders' JSON parameter is provided, those values are merged in
+/// (with explicit query params taking precedence).
+fn parse_placeholders_from_request(
+    req: &HttpRequest,
+    legacy_placeholders: &Option<String>,
+) -> Result<HashMap<String, String>, String> {
+    // Start with legacy JSON placeholders if provided
+    let mut placeholders = parse_placeholders_json(legacy_placeholders)?;
+
+    // Parse all query parameters and add non-reserved ones as placeholders
+    let query_string = req.query_string();
+    if !query_string.is_empty() {
+        for (key, value) in form_urlencoded::parse(query_string.as_bytes()) {
+            let key_str = key.as_ref();
+            // Skip reserved parameters
+            if !RESERVED_PARAMS.contains(&key_str) {
+                // Query params override legacy JSON placeholders
+                placeholders.insert(key_str.to_string(), value.into_owned());
+            }
+        }
+    }
+
+    Ok(placeholders)
 }
 
 /// Read file data from multipart upload.

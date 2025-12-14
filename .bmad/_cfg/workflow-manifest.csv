@@ -1,13 +1,6 @@
 name,description,module,path
 "brainstorming-session","Facilitate interactive brainstorming sessions using diverse creative techniques and ideation methods","core",".bmad/core/workflows/brainstorming/workflow.md"
 "party-mode","Orchestrates group discussions between all installed BMAD agents, enabling natural multi-agent conversations","core",".bmad/core/workflows/party-mode/workflow.md"
-"Meal Prep & Nutrition Plan","Creates personalized meal plans through collaborative nutrition planning between an expert facilitator and individual seeking to improve their nutrition habits.","bmb",".bmad/bmb/workflows/create-agent/data/reference/workflows/meal-prep-nutrition/workflow.md"
-"create-agent","Interactive workflow to build BMAD Core compliant agents with optional brainstorming, persona development, and command structure","bmb",".bmad/bmb/workflows/create-agent/workflow.md"
-"create-module","Interactive workflow to build complete BMAD modules with agents, workflows, and installation infrastructure","bmb",".bmad/bmb/workflows/create-module/workflow.md"
-"create-workflow","Create structured standalone workflows using markdown-based step architecture","bmb",".bmad/bmb/workflows/create-workflow/workflow.md"
-"edit-agent","Edit existing BMAD agents while following all best practices and conventions","bmb",".bmad/bmb/workflows/edit-agent/workflow.md"
-"edit-workflow","Intelligent workflow editor that helps modify existing workflows while following best practices","bmb",".bmad/bmb/workflows/edit-workflow/workflow.md"
-"workflow-compliance-check","Systematic validation of workflows against BMAD standards with adversarial analysis and detailed reporting","bmb",".bmad/bmb/workflows/workflow-compliance-check/workflow.md"
 "create-product-brief","Create comprehensive product briefs through collaborative step-by-step discovery as creative Business Analyst working with the user as peers.","bmm",".bmad/bmm/workflows/1-analysis/product-brief/workflow.md"
 "research","Conduct comprehensive research across multiple domains using current web data and verified sources - Market, Technical, Domain and other research types.","bmm",".bmad/bmm/workflows/1-analysis/research/workflow.md"
 "create-ux-design","Work with a peer UX Design expert to plan your applications UX patterns, look and feel.","bmm",".bmad/bmm/workflows/2-plan-workflows/create-ux-design/workflow.md"
