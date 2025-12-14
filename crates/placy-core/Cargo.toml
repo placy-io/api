@@ -1,0 +1,18 @@
+[package]
+name = "placy-core"
+description = "Core library for JAR/ZIP placeholder replacement with robust archive processing"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+thiserror.workspace = true
+rayon.workspace = true
+zip.workspace = true
+ristretto_classfile.workspace = true
+regex.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

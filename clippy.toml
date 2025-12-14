@@ -1,0 +1,47 @@
+# Clippy configuration
+# https://doc.rust-lang.org/clippy/configuration.html
+
+# Maximum cognitive complexity for functions
+cognitive-complexity-threshold = 30
+
+# MSRV - Minimum Supported Rust Version
+msrv = "1.75.0"
+
+# Maximum number of lines in a function body
+too-many-lines-threshold = 150
+
+# Maximum number of arguments a function can have
+too-many-arguments-threshold = 8
+
+# Maximum size of types in bytes passed by value
+pass-by-value-size-limit = 256
+
+# Allow certain names that might otherwise be flagged
+allowed-idents-below-min-chars = ["x", "y", "z", "i", "j", "k", "n", "s", "v", "f", "e", "id", "ok"]
+
+# Allowed wildcard imports
+allowed-wildcard-imports = []
+
+# Avoid linting dependencies
+avoid-breaking-exported-api = true
+
+# Standard macro names that should not trigger lints
+standard-macro-braces = []
+
+# Disallowed names (default is ["foo", "bar", "baz"])
+disallowed-names = ["foo", "bar", "baz", "quux"]
+
+# Enum variant name prefix to strip
+enum-variant-name-threshold = 3
+
+# Large error threshold for result types
+large-error-threshold = 128
+
+# Verbose bit mask threshold
+verbose-bit-mask-threshold = 1
+
+# Maximum number of struct bool fields
+max-struct-bools = 3
+
+# Maximum number of function bool params
+max-fn-params-bools = 3

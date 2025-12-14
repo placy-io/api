@@ -1,0 +1,62 @@
+[package]
+name = "placy-server"
+description = "HTTP API server for Placy JAR/ZIP placeholder replacement"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "placy-server"
+path = "src/main.rs"
+
+[dependencies]
+placy-core = { path = "../placy-core" }
+
+# Error handling
+anyhow.workspace = true
+thiserror.workspace = true
+
+# Web framework
+actix-web.workspace = true
+actix-rt.workspace = true
+actix-multipart.workspace = true
+
+# Async runtime
+tokio.workspace = true
+
+# Configuration
+config.workspace = true
+dotenvy.workspace = true
+
+# Serialization
+serde.workspace = true
+serde_json.workspace = true
+
+# Tracing and observability
+tracing.workspace = true
+tracing-subscriber.workspace = true
+tracing-appender.workspace = true
+tracing-actix-web.workspace = true
+opentelemetry.workspace = true
+opentelemetry_sdk.workspace = true
+opentelemetry-otlp.workspace = true
+tracing-opentelemetry.workspace = true
+
+# Metrics
+metrics.workspace = true
+metrics-exporter-prometheus.workspace = true
+
+# Security
+secrecy.workspace = true
+constant_time_eq.workspace = true
+
+# Utilities
+futures.workspace = true
+bytes.workspace = true
+uuid.workspace = true
+num_cpus = "1.16"
+
+[dev-dependencies]
+tempfile.workspace = true
+actix-http = "3"

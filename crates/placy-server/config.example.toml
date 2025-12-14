@@ -1,0 +1,92 @@
+# Placy Server Configuration Example
+# Copy this file to config.toml and customize as needed.
+# Environment variables with PLACY_ prefix override these settings.
+# Use double underscores (__) for nested keys: PLACY_SERVER__PORT=9090
+
+[server]
+# Host to bind to (0.0.0.0 for all interfaces)
+host = "0.0.0.0"
+# Port to listen on
+port = 8080
+# Number of worker threads (0 = number of CPU cores)
+workers = 0
+# Request timeout in seconds
+request_timeout_secs = 300
+# HTTP keep-alive timeout in seconds
+keepalive_secs = 75
+
+[processing]
+# Maximum upload size in bytes (100MB)
+max_upload_size = 104857600
+# Maximum individual file size within archives (10MB)
+max_file_size = 10485760
+# Maximum number of files in an archive
+max_file_count = 1000
+# Maximum total extracted size (100MB)
+max_zip_size = 104857600
+# Maximum compression ratio (zip bomb protection)
+max_compression_ratio = 100.0
+# Remove process.txt from output after processing
+delete_process_file = true
+# Remove ignore.txt from output after processing
+delete_ignore_file = true
+# Temporary directory for processing
+temp_dir = "/tmp/placy"
+
+[auth]
+# Enable API key authentication
+enabled = true
+# Header name for API key
+api_key_header = "X-API-Key"
+# Require auth for /metrics endpoint
+metrics_auth_enabled = true
+
+# API keys configuration
+# Each key has a name, the secret key, and optional rate limit
+[[auth.api_keys]]
+name = "default"
+key = "your-secret-api-key-here"
+# rate_limit = 100  # requests per minute (optional)
+
+[[auth.api_keys]]
+name = "service-account"
+key = "another-secret-key"
+rate_limit = 1000
+
+[observability.logging]
+# Log level: trace, debug, info, warn, error
+level = "info"
+# Log format: json, pretty, compact
+format = "pretty"
+# Enable console logging
+console_enabled = true
+# Enable file logging
+file_enabled = false
+# Directory for log files
+file_dir = "./logs"
+# Log file prefix
+file_prefix = "placy-server"
+# Log rotation: daily, hourly, minutely, never
+file_rotation = "daily"
+
+[observability.metrics]
+# Enable Prometheus metrics
+enabled = true
+# Metrics endpoint path
+path = "/metrics"
+# Include detailed processing metrics
+include_process_metrics = true
+
+[observability.otel]
+# Enable OpenTelemetry
+enabled = false
+# OTLP endpoint
+endpoint = "http://localhost:4317"
+# Service name for tracing
+service_name = "placy-server"
+# Enable trace export
+traces_enabled = true
+# Enable metrics export via OTLP (separate from Prometheus)
+metrics_enabled = false
+# Enable log export via OTLP
+logs_enabled = false

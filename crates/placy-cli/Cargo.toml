@@ -1,0 +1,15 @@
+[package]
+name = "placy-cli"
+description = "CLI tool for JAR/ZIP placeholder replacement"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "placy"
+path = "src/main.rs"
+
+[dependencies]
+placy-core = { path = "../placy-core" }
+anyhow.workspace = true

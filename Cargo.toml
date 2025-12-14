@@ -1,12 +1,69 @@
-[package]
-name = "PlacyRust"
-version = "0.1.0"
-edition = "2024"
+[workspace]
+resolver = "2"
+members = ["crates/placy-core", "crates/placy-cli", "crates/placy-server"]
 
-[dependencies]
-anyhow = "1.0.100"
-maplit = "1.0.2"
-rayon = "1.11.0"
-ristretto_classfile = "0.25.0"
-tokio = "1.48.0"
-zip = "6.0.0"
+[workspace.package]
+version = "0.2.0"
+edition = "2021"
+authors = ["daysling"]
+license = "MIT"
+repository = "https://github.com/daysling/PlacyRust"
+
+[workspace.dependencies]
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+# Parallelism
+rayon = "1.10"
+
+# Archive handling
+zip = "2.2"
+
+# Java class file parsing
+ristretto_classfile = "0.25"
+
+# Regex for pattern matching
+regex = "1.11"
+
+# Async runtime
+tokio = { version = "1.48", features = ["full"] }
+
+# Web framework
+actix-web = "4.9"
+actix-rt = "2.10"
+actix-multipart = "0.7"
+
+# Configuration
+config = "0.15"
+dotenvy = "0.15"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Tracing and observability
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json", "fmt"] }
+tracing-appender = "0.2"
+tracing-actix-web = "0.7"
+opentelemetry = "0.27"
+opentelemetry_sdk = { version = "0.27", features = ["rt-tokio"] }
+opentelemetry-otlp = { version = "0.27", features = ["tonic", "metrics", "logs"] }
+tracing-opentelemetry = "0.28"
+
+# Metrics
+metrics = "0.24"
+metrics-exporter-prometheus = "0.16"
+
+# Security
+secrecy = { version = "0.10", features = ["serde"] }
+constant_time_eq = "0.3"
+
+# Utilities
+futures = "0.3"
+bytes = "1.9"
+uuid = { version = "1.16", features = ["v4"] }
+
+# Testing utilities
+tempfile = "3.14"
