@@ -47,10 +47,13 @@ tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter", "json", "fmt"] }
 tracing-appender = "0.2"
 tracing-actix-web = "0.7"
-opentelemetry = "0.27"
-opentelemetry_sdk = { version = "0.27", features = ["rt-tokio"] }
-opentelemetry-otlp = { version = "0.27", features = ["tonic", "metrics", "logs"] }
-tracing-opentelemetry = "0.28"
+opentelemetry = "0.31"
+opentelemetry_sdk = { version = "0.31", features = ["rt-tokio"] }
+opentelemetry-semantic-conventions = { version = "0.31.0", features = [
+    "semconv_experimental",
+] }
+opentelemetry-otlp = { version = "0.31", features = ["tonic", "grpc-tonic", "metrics", "logs"] }
+tracing-opentelemetry = { version = "0.32" }
 
 # Metrics
 metrics = "0.24"

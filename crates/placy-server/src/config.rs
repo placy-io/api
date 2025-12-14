@@ -276,17 +276,6 @@ pub struct OtelSettings {
     /// Service name for traces
     #[serde(default = "default_service_name")]
     pub service_name: String,
-    /// Enable trace export
-    #[serde(default = "default_true")]
-    pub traces_enabled: bool,
-    /// Enable metrics export via OTLP
-    #[serde(default)]
-    #[allow(dead_code)] // Reserved for future OTLP metrics export
-    pub metrics_enabled: bool,
-    /// Enable logs export via OTLP
-    #[serde(default)]
-    #[allow(dead_code)] // Reserved for future OTLP logs export
-    pub logs_enabled: bool,
 }
 
 fn default_otel_endpoint() -> String {
@@ -387,8 +376,10 @@ mod tests {
         let _guard = ENV_LOCK.lock().unwrap();
 
         // Clear any env vars that might interfere
-        std::env::remove_var("PLACY_SERVER__PORT");
-        std::env::remove_var("PLACY_AUTH__ENABLED");
+        unsafe {
+            std::env::remove_var("PLACY_SERVER__PORT");
+            std::env::remove_var("PLACY_AUTH__ENABLED");
+        }
 
         let settings = Settings::load().unwrap();
         assert_eq!(settings.server.port, 8080);
@@ -400,15 +391,19 @@ mod tests {
     fn test_env_override() {
         let _guard = ENV_LOCK.lock().unwrap();
 
-        std::env::set_var("PLACY_SERVER__PORT", "9090");
-        std::env::set_var("PLACY_AUTH__ENABLED", "false");
+        unsafe {
+            std::env::set_var("PLACY_SERVER__PORT", "9090");
+            std::env::set_var("PLACY_AUTH__ENABLED", "false");
+        }
 
         let settings = Settings::load().unwrap();
         assert_eq!(settings.server.port, 9090);
         assert!(!settings.auth.enabled);
 
         // Cleanup
-        std::env::remove_var("PLACY_SERVER__PORT");
-        std::env::remove_var("PLACY_AUTH__ENABLED");
+        unsafe {
+            std::env::remove_var("PLACY_SERVER__PORT");
+            std::env::remove_var("PLACY_AUTH__ENABLED");
+        }
     }
 }

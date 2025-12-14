@@ -312,8 +312,25 @@ fn parse_placeholders_from_request(
             let key_str = key.as_ref();
             // Skip reserved parameters
             if !RESERVED_PARAMS.contains(&key_str) {
+                // Process the value: trim, replace spaces with underscores, validate alphanumeric
+                let placeholder_key = key.trim().replace(' ', "_").to_ascii_uppercase();
+
+                // Verify that it contains only alphabets and digits (and underscores from replacement)
+                if !placeholder_key
+                    .chars()
+                    .all(|c| c.is_alphanumeric() || c == '_')
+                {
+                    return Err(format!(
+                        "Invalid placeholder value for key '{}': must contain only letters, digits, and spaces",
+                        key_str
+                    ));
+                }
+
+                // Convert key to %%__KEY__%% format
+                let placeholder_key = format!("%%__{}__%%", placeholder_key.to_uppercase());
+
                 // Query params override legacy JSON placeholders
-                placeholders.insert(key_str.to_string(), value.into_owned());
+                placeholders.insert(placeholder_key, value.to_string());
             }
         }
     }

@@ -1,11 +1,16 @@
 //! Observability setup: logging, metrics, and tracing.
 
-use crate::config::{LogFormat, LogRotation, ObservabilitySettings};
+use crate::config::{LogFormat, LogRotation, ObservabilitySettings, OtelSettings};
 use anyhow::Result;
 use metrics_exporter_prometheus::{PrometheusBuilder, PrometheusHandle};
-use opentelemetry::trace::TracerProvider;
-use opentelemetry_otlp::WithExportConfig;
-use opentelemetry_sdk::runtime::Tokio;
+use opentelemetry::{trace::TracerProvider, KeyValue};
+use opentelemetry_appender_tracing::layer::OpenTelemetryTracingBridge;
+use opentelemetry_otlp::{LogExporter, WithExportConfig};
+use opentelemetry_sdk::{
+    logs::SdkLoggerProvider,
+    trace::RandomIdGenerator,
+    Resource,
+};
 use tracing_appender::rolling::{RollingFileAppender, Rotation};
 use tracing_subscriber::{
     fmt::{self, format::FmtSpan},
@@ -21,8 +26,8 @@ pub struct TelemetryGuard {
 
 impl Drop for TelemetryGuard {
     fn drop(&mut self) {
-        // Shutdown OpenTelemetry on drop
-        opentelemetry::global::shutdown_tracer_provider();
+        drop(opentelemetry::global::tracer_provider());
+        drop(opentelemetry::global::meter_provider());
     }
 }
 
@@ -98,14 +103,26 @@ pub fn init_telemetry(
     };
 
     // OpenTelemetry layer
-    let otel_layer = if settings.otel.enabled && settings.otel.traces_enabled {
+    let otel_layer = if settings.otel.enabled {
         let exporter = opentelemetry_otlp::SpanExporter::builder()
             .with_tonic()
             .with_endpoint(&settings.otel.endpoint)
             .build()?;
 
-        let tracer_provider = opentelemetry_sdk::trace::TracerProvider::builder()
-            .with_batch_exporter(exporter, Tokio)
+        let tracer_provider = opentelemetry_sdk::trace::SdkTracerProvider::builder()
+            .with_batch_exporter(exporter)
+            .with_resource(resource_attributes(&settings.otel))
+            .with_id_generator(RandomIdGenerator::default())
+            .build();
+
+        let log_exporter = LogExporter::builder()
+            .with_tonic()
+            .with_endpoint(&settings.otel.endpoint)
+            .build()?;
+
+        let logs_appender = SdkLoggerProvider::builder()
+            .with_batch_exporter(log_exporter)
+            .with_resource(resource_attributes(&settings.otel))
             .build();
 
         let tracer = tracer_provider.tracer(settings.otel.service_name.clone());
@@ -113,7 +130,10 @@ pub fn init_telemetry(
         // Set the global tracer provider
         opentelemetry::global::set_tracer_provider(tracer_provider);
 
-        Some(tracing_opentelemetry::layer().with_tracer(tracer))
+        Some((
+            tracing_opentelemetry::layer().with_tracer(tracer),
+            OpenTelemetryTracingBridge::new(&logs_appender),
+        ))
     } else {
         None
     };
@@ -132,7 +152,7 @@ pub fn init_telemetry(
         .with(env_filter)
         .with(console_layer)
         .with(file_layer)
-        .with(otel_layer)
+        .with(otel_layer.map(|(trace_layer, log_layer)| trace_layer.and_then(log_layer)))
         .init();
 
     // Log startup info
@@ -199,4 +219,11 @@ pub fn record_request(method: &str, path: &str, status: u16, duration_ms: u64) {
 
     metrics::counter!("placy_http_requests_total", &labels).increment(1);
     metrics::histogram!("placy_http_request_duration_ms", &labels).record(duration_ms as f64);
+}
+
+fn resource_attributes(config: &OtelSettings) -> Resource {
+    Resource::builder()
+        .with_service_name(config.service_name.clone())
+        .with_attribute(KeyValue::new("service.version", env!("CARGO_PKG_VERSION")))
+        .build()
 }
