@@ -6,11 +6,7 @@ use metrics_exporter_prometheus::{PrometheusBuilder, PrometheusHandle};
 use opentelemetry::{trace::TracerProvider, KeyValue};
 use opentelemetry_appender_tracing::layer::OpenTelemetryTracingBridge;
 use opentelemetry_otlp::{LogExporter, WithExportConfig};
-use opentelemetry_sdk::{
-    logs::SdkLoggerProvider,
-    trace::RandomIdGenerator,
-    Resource,
-};
+use opentelemetry_sdk::{logs::SdkLoggerProvider, trace::RandomIdGenerator, Resource};
 use tracing_appender::rolling::{RollingFileAppender, Rotation};
 use tracing_subscriber::{
     fmt::{self, format::FmtSpan},
