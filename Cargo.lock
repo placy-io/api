@@ -1921,6 +1921,7 @@ dependencies = [
  "tracing-opentelemetry",
  "tracing-subscriber",
  "uuid",
+ "zip",
 ]
 
 [[package]]

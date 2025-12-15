@@ -6,6 +6,7 @@
 mod auth;
 mod config;
 mod handlers;
+mod routes;
 mod telemetry;
 
 use actix_web::{middleware, web, App, HttpServer};
@@ -58,17 +59,14 @@ async fn main() -> Result<()> {
             .wrap(middleware::Compress::default())
             .wrap(middleware::NormalizePath::trim())
             // Health endpoints (no auth)
-            .configure(handlers::configure_health_routes)
+            .configure(routes::configure_health_routes)
             // Metrics endpoint (optional auth based on config)
-            .route(
-                &metrics_path,
-                web::get().to(handlers::metrics),
-            )
+            .route(&metrics_path, web::get().to(routes::metrics::metrics))
             // API routes with authentication
             .service(
                 web::scope("")
                     .wrap(ApiKeyAuth::new(auth_settings.clone()))
-                    .configure(handlers::configure_routes)
+                    .configure(routes::configure_api_routes),
             )
     })
     .bind(&bind_addr)?

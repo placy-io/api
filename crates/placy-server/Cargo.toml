@@ -51,6 +51,9 @@ metrics-exporter-prometheus.workspace = true
 secrecy.workspace = true
 constant_time_eq.workspace = true
 
+# Archive handling (for type detection)
+zip.workspace = true
+
 # Utilities
 futures.workspace = true
 bytes.workspace = true
