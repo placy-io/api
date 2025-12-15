@@ -313,7 +313,7 @@ fn parse_placeholders_from_request(
             // Skip reserved parameters
             if !RESERVED_PARAMS.contains(&key_str) {
                 // Process the value: trim, replace spaces with underscores, validate alphanumeric
-                let placeholder_key = key.trim().replace(' ', "_").to_ascii_uppercase();
+                let placeholder_key = key.trim().replace(' ', "_");
 
                 // Verify that it contains only alphabets and digits (and underscores from replacement)
                 if !placeholder_key
@@ -325,9 +325,6 @@ fn parse_placeholders_from_request(
                         key_str
                     ));
                 }
-
-                // Convert key to %%__KEY__%% format
-                let placeholder_key = format!("%%__{}__%%", placeholder_key.to_uppercase());
 
                 // Query params override legacy JSON placeholders
                 placeholders.insert(placeholder_key, value.to_string());
