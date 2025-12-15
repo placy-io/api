@@ -89,12 +89,9 @@ pub(crate) fn parse_placeholders_from_request(
                 let placeholder_key = key.trim().replace(' ', "_");
 
                 // Verify that it contains only alphabets and digits (and underscores from replacement)
-                if !placeholder_key
-                    .chars()
-                    .all(|c| c.is_alphanumeric() || c == '_')
-                {
+                if !placeholder_key.is_ascii() {
                     return Err(format!(
-                        "Invalid placeholder value for key '{}': must contain only letters, digits, and spaces",
+                        "Invalid placeholder value for key '{}': must contain only ASCII characters.",
                         key_str
                     ));
                 }
