@@ -170,17 +170,20 @@ jobs:
 
   # Security audit
   security:
-    name: Security Audit
     runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      issues: write
+      pull-requests: read
+      contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install cargo-audit
-        run: cargo install cargo-audit
-
+        uses: actions/checkout@v6
+      - uses: Swatinem/rust-cache@v2
       - name: Run security audit
-        run: cargo audit
+        uses: rustsec/audit-check@v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   # Check for unused dependencies
   udeps:
@@ -190,15 +193,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Rust nightly
-        uses: dtolnay/rust-toolchain@nightly
-
-      - name: Install cargo-udeps
-        run: cargo install cargo-udeps --locked
-
-      - name: Check for unused dependencies
-        run: cargo +nightly udeps --workspace --all-targets
-        continue-on-error: true # Don't fail the build, just report
+      - name: cargo-machete
+        uses: bnjbvr/cargo-machete@main
+        continue-on-error: true
 
   # All checks passed
   ci-success:
