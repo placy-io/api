@@ -1,3 +1,6 @@
+// Copyright 2025 Placy
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 //! Java class file constant pool processing.
 
 use crate::error::Result;

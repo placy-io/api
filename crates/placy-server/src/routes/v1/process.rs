@@ -1,3 +1,6 @@
+// Copyright 2025 Placy
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 //! Archive processing endpoint handler.
 //!
 //! This module provides a unified endpoint for processing both JAR and ZIP archives.

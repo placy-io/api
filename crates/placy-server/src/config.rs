@@ -1,3 +1,6 @@
+// Copyright 2025 Placy
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 //! Configuration management for placy-server.
 //!
 //! Uses the `config` crate to load settings from multiple sources:

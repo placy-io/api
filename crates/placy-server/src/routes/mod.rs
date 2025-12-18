@@ -1,3 +1,6 @@
+// Copyright 2025 Placy
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 //! HTTP route configuration.
 //!
 //! This module organizes all HTTP routes into a modular structure:

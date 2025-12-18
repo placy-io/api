@@ -1,3 +1,6 @@
+// Copyright 2025 Placy
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 //! ZIP archive processing with regex-based file matching.
 //!
 //! This module handles ZIP archives containing multiple JAR files and resources.

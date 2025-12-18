@@ -1,3 +1,6 @@
+// Copyright 2025 Placy
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 //! Observability setup: logging, metrics, and tracing.
 
 use crate::config::{LogFormat, LogRotation, ObservabilitySettings, OtelSettings};

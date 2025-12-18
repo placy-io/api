@@ -1,3 +1,6 @@
+// Copyright 2025 Placy
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 //! # placy-core
 //!
 //! A high-performance library for JAR/ZIP placeholder replacement.

@@ -1,3 +1,6 @@
+// Copyright 2025 Placy
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 //! Placy Server - HTTP API for JAR/ZIP placeholder replacement.
 //!
 //! This server provides a REST API for processing JAR and ZIP archives,

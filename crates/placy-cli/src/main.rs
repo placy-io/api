@@ -1,3 +1,6 @@
+// Copyright 2025 Placy
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 //! Placy CLI - JAR/ZIP Placeholder Replacement Tool
 //!
 //! A command-line tool for replacing placeholders in JAR and ZIP archives.

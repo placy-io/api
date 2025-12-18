@@ -1,3 +1,6 @@
+// Copyright 2025 Placy
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 //! Prometheus metrics endpoint handler.
 
 use actix_web::{web, HttpRequest, HttpResponse};
