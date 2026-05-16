@@ -70,4 +70,4 @@ uuid = { version = "1.16", features = ["v4"] }
 form_urlencoded = "1.2"
 
 # Testing utilities
-tempfile = "3.14"
+tempfile = "3.27"
