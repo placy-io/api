@@ -61,7 +61,7 @@ metrics-exporter-prometheus = "0.16"
 
 # Security
 secrecy = { version = "0.10", features = ["serde"] }
-constant_time_eq = "0.3"
+constant_time_eq = "0.4"
 
 # Utilities
 futures = "0.3"
