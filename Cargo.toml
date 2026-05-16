@@ -21,7 +21,7 @@ rayon = "1.10"
 zip = "8.6"
 
 # Java class file parsing
-ristretto_classfile = "0.25"
+ristretto_classfile = "0.31"
 
 # Regex for pattern matching
 regex = "1.12"
