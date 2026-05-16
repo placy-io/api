@@ -1979,7 +1979,7 @@ dependencies = [
  "regex",
  "ristretto_classfile",
  "tempfile",
- "thiserror 1.0.69",
+ "thiserror 2.0.17",
  "zip",
 ]
 
@@ -2011,7 +2011,7 @@ dependencies = [
  "serde",
  "serde_json",
  "tempfile",
- "thiserror 1.0.69",
+ "thiserror 2.0.17",
  "tokio",
  "tracing",
  "tracing-actix-web",
