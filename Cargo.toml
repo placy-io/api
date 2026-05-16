@@ -24,7 +24,7 @@ zip = "2.2"
 ristretto_classfile = "0.25"
 
 # Regex for pattern matching
-regex = "1.11"
+regex = "1.12"
 
 # Async runtime
 tokio = { version = "1.50", features = ["full"] }
