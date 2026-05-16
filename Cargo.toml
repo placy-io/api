@@ -27,7 +27,7 @@ ristretto_classfile = "0.25"
 regex = "1.11"
 
 # Async runtime
-tokio = { version = "1.48", features = ["full"] }
+tokio = { version = "1.50", features = ["full"] }
 
 # Web framework
 actix-web = "4.9"
