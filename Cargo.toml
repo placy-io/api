@@ -12,7 +12,7 @@ repository = "https://github.com/daysling/PlacyRust"
 [workspace.dependencies]
 # Error handling
 anyhow = "1.0"
-thiserror = "1.0"
+thiserror = "2.0"
 
 # Parallelism
 rayon = "1.10"
